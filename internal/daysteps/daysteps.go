@@ -39,6 +39,9 @@ func parsePackage(data string) (int, time.Duration, error) {
 		if err != nil {                            // Проверка наличия ошибки при измененеии типа на time
 			return 0, 0, ErrConvTime
 		}
+		if period <= 0 {
+			return 0, 0, spentcalories.ErrDuration
+		}
 		return steps, period, nil
 	}
 	return 0, 0, ErrLenSlice

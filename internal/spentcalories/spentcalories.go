@@ -68,6 +68,10 @@ func meanSpeed(steps int, height float64, duration time.Duration) float64 {
 func TrainingInfo(data string, weight, height float64) (string, error) {
 	// TODO: реализовать функцию
 	steps, workOut, period, err := parseTraining(data)
+	if err != nil { // Проверка возврата ошибки из предыдущей функции
+		log.Println(err)
+		return "", err
+	}
 	if steps < 1 { // Проверка числа шагов
 		log.Println(err)
 		return "", ErrNumSteps
@@ -82,10 +86,6 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	}
 	if weight <= 0.0 && height <= 0.0 { // Проверка значений веса и роста
 		return "", ErrWeiHei
-	}
-	if err != nil { // Проверка возврата ошибки из предыдущей функции
-		log.Println(err)
-		return "", err
 	}
 	var text string
 	switch workOut { // вывод на экран информации в зависимости от типа тренировки
@@ -136,7 +136,7 @@ func WalkingSpentCalories(steps int, weight, height float64, duration time.Durat
 	if weight <= 0.0 && height <= 0.0 { // Проверка значений веса и роста
 		return 0.0, ErrWeiHei
 	}
-	if duration <= 0 {
+	if duration <= 0.0 {
 		return 0.0, ErrDuration // Проверка значения интервал времени
 	}
 	speed := meanSpeed(steps, height, duration)
