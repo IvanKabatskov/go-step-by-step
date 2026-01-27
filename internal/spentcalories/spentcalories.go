@@ -96,7 +96,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		if err != nil {
 			return " ", err
 		}
-		text = fmt.Sprintf(" Тип тренировки: %s\n Длительность: %T ч.\n Дистанция: %f км.\n Скорость: %f км/ч\n Сожгли калорий: %f\n", workOut, period, way, meanSpeed, calories)
+		text = fmt.Sprintf(" Тип тренировки: %s\n Длительность: %.2f ч.\n Дистанция: %.2f км.\n Скорость: %.2f км/ч\n Сожгли калорий: %.2f\n", workOut, period.Hours(), way, meanSpeed, calories)
 	case "Ходьба":
 		way := distance(steps, height)
 		meanSpeed := meanSpeed(steps, height, period)
@@ -104,7 +104,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		if err != nil {
 			return " ", err
 		}
-		text = fmt.Sprintf(" Тип тренировки: %s\n Длительность: %T ч.\n Дистанция: %f км.\n Скорость: %f км/ч\n Сожгли калорий: %f\n", workOut, period, way, meanSpeed, calories)
+		text = fmt.Sprintf(" Тип тренировки: %s\n Длительность: %.2f ч.\n Дистанция: %.2f км.\n Скорость: %.2f км/ч\n Сожгли калорий: %.2f\n", workOut, period.Hours(), way, meanSpeed, calories)
 	default:
 		return " ", ErrWorkOut
 	}
