@@ -49,17 +49,17 @@ func DayActionInfo(data string, weight, height float64) string {
 	steps, period, err := parsePackage(data) // steps - шаги, period - время, err - ошибка
 	if err != nil {                          // проверка на наличие возврата ошибки из parsePackage
 		fmt.Println(err)
-		return " "
+		return ""
 	}
 	if steps < 1 { // проверка числа шагов
-		return " "
+		return ""
 	}
 	wayLenghtM := float64(steps) * stepLength                                                // Дистанция в м
 	wayLenghtKm := wayLenghtM / float64(mInKm)                                               // Дистанция в км
 	caloriesOnWalk, err := spentcalories.WalkingSpentCalories(steps, weight, height, period) // Кол-во калорий на прогулке
 	if err != nil {
-		return " "
+		return ""
 	}
-	text := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f  ккал.\n", steps, wayLenghtKm, caloriesOnWalk)
+	text := fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", steps, wayLenghtKm, caloriesOnWalk)
 	return text
 }

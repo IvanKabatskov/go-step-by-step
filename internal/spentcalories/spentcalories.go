@@ -34,15 +34,15 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	if len(list) == 3 {              // Проверка на наличие трех значений в слайсе
 		steps, err := strconv.Atoi(list[0]) // Изменение типа string на int
 		if err != nil {                     // Проверка наличия ошибки
-			return 0, " ", 0, ErrConvToInt
+			return 0, "", 0, ErrConvToInt
 		}
 		period, err := time.ParseDuration(list[2]) // Изменение типа string на time
 		if err != nil {                            // Проверка наличия ошибки при измененеии типа на time
-			return 0, " ", 0, ErrConvTime
+			return 0, "", 0, ErrConvTime
 		}
 		return steps, list[1], period, nil
 	}
-	return 0, " ", 0, ErrLenSlice // возврат в случае если длина слайса != 3
+	return 0, "", 0, ErrLenSlice // возврат в случае если длина слайса != 3
 }
 
 func distance(steps int, height float64) float64 {
@@ -70,22 +70,22 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	steps, workOut, period, err := parseTraining(data)
 	if steps < 1 { // Проверка числа шагов
 		log.Println(err)
-		return " ", ErrNumSteps
+		return "", ErrNumSteps
 	}
-	if workOut == " " { // Проверка указания вида тренировки
+	if workOut == "" { // Проверка указания вида тренировки
 		log.Println(ErrWorkOut)
-		return " ", ErrWorkOut
+		return "", ErrWorkOut
 	}
 	if period <= 0 { // Проверка значения интервала времени
 		log.Println(ErrDuration)
-		return " ", ErrDuration
+		return "", ErrDuration
 	}
 	if weight <= 0.0 && height <= 0.0 { // Проверка значений веса и роста
-		return " ", ErrWeiHei
+		return "", ErrWeiHei
 	}
 	if err != nil { // Проверка возврата ошибки из предыдущей функции
 		log.Println(err)
-		return " ", err
+		return "", err
 	}
 	var text string
 	switch workOut { // вывод на экран информации в зависимости от типа тренировки
@@ -94,7 +94,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		meanSpeed := meanSpeed(steps, height, period)
 		calories, err := RunningSpentCalories(steps, weight, height, period)
 		if err != nil {
-			return " ", err
+			return "", err
 		}
 		text = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", workOut, period.Hours(), way, meanSpeed, calories)
 	case "Ходьба":
@@ -102,11 +102,11 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		meanSpeed := meanSpeed(steps, height, period)
 		calories, err := WalkingSpentCalories(steps, weight, height, period)
 		if err != nil {
-			return " ", err
+			return "", err
 		}
 		text = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", workOut, period.Hours(), way, meanSpeed, calories)
 	default:
-		return " ", ErrWorkOut
+		return "", ErrWorkOut
 	}
 	return text, nil
 }
