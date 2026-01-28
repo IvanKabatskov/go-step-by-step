@@ -1,6 +1,7 @@
 package spentcalories
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strconv"
@@ -48,7 +49,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	activity := sliceStr[1]
 	// Проверка данных об актинвости
 	if activity != "Бег" && activity != "Ходьба" {
-		return 0, "", 0, fmt.Errorf("неизвестный тип тренировки")
+		return 0, "", 0, errors.New("неизвестный тип тренировки")
 	}
 	// Возврат корректных значений
 	return steps, activity, duration, nil
@@ -87,7 +88,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	}
 	// Проверка данных об активности
 	if activity != "Бег" && activity != "Ходьба" {
-		return "", fmt.Errorf("неизвестный тип тренировки")
+		return "", errors.New("неизвестный тип тренировки")
 	}
 	message := ""
 	switch activity {
