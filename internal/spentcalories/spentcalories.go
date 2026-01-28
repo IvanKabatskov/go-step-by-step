@@ -123,6 +123,14 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 	if height <= 0 {
 		return 0, fmt.Errorf("некорректное значение %.2f", height)
 	}
+	// Проверка продолжительности активности
+	if duration <= 0 {
+		return 0, fmt.Errorf("некорректное значение %v", duration)
+	}
+	// Проверка кол-ва шагов
+	if steps <= 0 {
+		return 0, fmt.Errorf("некорректное значение %d", steps)
+	}
 	// Рассчет средней скорости
 	meanSpeed := meanSpeed(steps, height, duration)
 	// Рассчет калорий

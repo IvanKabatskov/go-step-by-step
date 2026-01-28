@@ -2,6 +2,7 @@ package daysteps
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -52,7 +53,7 @@ func DayActionInfo(data string, weight, height float64) string {
 	steps, duration, err := parsePackage(data)
 	// Вывод на экран ошибки
 	if err != nil {
-		fmt.Println("Произошла ошибка:", err)
+		log.Println(err)
 		return ""
 	}
 	//Вычисление дистанции в метрах
@@ -62,7 +63,7 @@ func DayActionInfo(data string, weight, height float64) string {
 	// Вычисление кол-ва калорий
 	calories, err := spentcalories.WalkingSpentCalories(steps, weight, height, duration)
 	if err != nil {
-		fmt.Println("Произошла ошибка:", err)
+		log.Println(err)
 		return ""
 	}
 	//Создание сообщения вывода
