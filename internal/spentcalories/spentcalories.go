@@ -32,7 +32,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	}
 	// Проверка на кол-во шагов
 	if steps <= 0 {
-		return 0, "", 0, fmt.Errorf("некорректное значение %d", steps)
+		return 0, "", 0, fmt.Errorf("некорректное значение кол-ва шагов %d", steps)
 	}
 	// Преобразование string в Duration
 	duration, err := time.ParseDuration(sliceStr[2])
@@ -42,7 +42,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	}
 	// Проверка длительности активности
 	if duration <= 0 {
-		return 0, "", 0, fmt.Errorf("некорректное значение %v", duration)
+		return 0, "", 0, fmt.Errorf("некорректное значение времени %v", duration)
 	}
 	// Вывод активности
 	activity := sliceStr[1]
@@ -83,6 +83,11 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	steps, activity, duration, err := parseTraining(data)
 	if err != nil {
 		log.Println(err)
+		return "", err
+	}
+	// Проверка данных об активности
+	if activity != "Бег" && activity != "Ходьба" {
+		return "", fmt.Errorf("неизвестный тип тренировки")
 	}
 	message := ""
 	switch activity {
